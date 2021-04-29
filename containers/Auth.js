@@ -2,7 +2,9 @@ import React from 'react'
 
 const Auth = ({ children }) => {
   return (
-    <div className="w-full h-full flex justify-center items-center bg-gray-500">{children}</div>
+    <div className="min-h-screen w-full flex justify-center items-center bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500">
+      {children}
+    </div>
   )
 }
 

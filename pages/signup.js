@@ -3,8 +3,10 @@ import Auth from '../containers/Auth'
 import AuthLayout from '../components/AuthLayout'
 import firebase from 'firebase'
 import Link from 'next/link'
+import { AuthAction, withAuthUser } from 'next-firebase-auth'
 
 const SignUp = () => {
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -13,7 +15,12 @@ const SignUp = () => {
   const onSignUpPress = async (e) => {
     e.preventDefault()
     try {
-      await firebase.auth().createUserWithEmailAndPassword(email, password)
+      const user = await firebase.auth().createUserWithEmailAndPassword(email, password)
+      firebase.database().ref('users').child(user.user.uid).set({
+        name,
+        email: user.user.email,
+      })
+      await firebase.auth().signInWithEmailAndPassword(email, password)
     } catch (err) {
       setError(err.message)
     }
@@ -23,6 +30,15 @@ const SignUp = () => {
     <Auth>
       <AuthLayout title={'Create an Account'} description={'Welcome, create your account!'}>
         <form onSubmit={onSignUpPress} className="flex my-6 flex-col">
+          <input
+            className="my-3 p-2 rounded-lg bg-gray-100 focus:shadow-2xl focus:bg-white focus:ring-2"
+            value={name}
+            onChange={(e) => {
+              setName(e.currentTarget.value)
+              setError('')
+            }}
+            placeholder={'Name'}
+          />
           <input
             className="my-3 p-2 rounded-lg bg-gray-100 focus:shadow-2xl focus:bg-white focus:ring-2"
             value={email}
@@ -42,6 +58,7 @@ const SignUp = () => {
             type={'password'}
             placeholder={'Password'}
           />
+          {!!error && <span className="self-center text-sm text-red-500">{error}</span>}
           <button type="submit" className="mt-8 p-2 rounded-lg text-white font-bold bg-blue-600">
             Sign in
           </button>
@@ -52,10 +69,11 @@ const SignUp = () => {
             <span className="cursor-pointer text-sm underline text-blue-500">Click here.</span>
           </Link>
         </p>
-        {!!error && <span className="self-center text-sm text-red-500">{error}</span>}
       </AuthLayout>
     </Auth>
   )
 }
 
-export default SignUp
+export default withAuthUser({
+  whenAuthed: AuthAction.REDIRECT_TO_APP,
+})(SignUp)

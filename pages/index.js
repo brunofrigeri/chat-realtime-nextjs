@@ -43,6 +43,7 @@ const Home = () => {
             type={'password'}
             placeholder={'Password'}
           />
+          {!!error && <span className="self-center text-sm text-red-500">{error}</span>}
           <button type="submit" className="mt-8 p-2 rounded-lg text-white font-bold bg-blue-600">
             Sign in
           </button>
@@ -53,7 +54,6 @@ const Home = () => {
             <span className="cursor-pointer text-sm underline text-blue-500">Create here.</span>
           </Link>
         </p>
-        {!!error && <span className="self-center text-sm text-red-500">{error}</span>}
       </AuthLayout>
     </Auth>
   )
