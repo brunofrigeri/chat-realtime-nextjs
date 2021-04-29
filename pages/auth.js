@@ -1,6 +1,9 @@
 import { AuthAction, useAuthUser, withAuthUser } from 'next-firebase-auth'
-import React from 'react'
+import React, { useMemo } from 'react'
 import useSWR from 'swr'
+import Avatar from '../components/Avatar'
+import Sidebar from '../components/Sidebar'
+import Status from '../components/Status'
 
 const AuthenticatedPage = () => {
   const AuthUser = useAuthUser()
@@ -14,17 +17,48 @@ const AuthenticatedPage = () => {
     await AuthUser.signOut()
   }
 
+  const conversations = useMemo(() => {
+    let topicsArray = []
+
+    topicsArray.push({
+      title: 'Conversations',
+      people: [
+        {
+          id: 0,
+          name: 'Vivian Carolino',
+          email: 'v@gmail.com',
+          status: 'online',
+        },
+        {
+          id: 1,
+          name: 'Viviane Frigeri',
+          email: 'v1@gmail.com',
+          status: 'offline',
+        },
+      ],
+    })
+
+    return topicsArray
+  }, [])
+
   if (!data) {
     return <h1>Loading</h1>
   }
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <span>
-        Welcome <span className="text-blue-400">{data.name}</span>, your email is{' '}
-        <span className="text-green-400">{data.email}</span>
-      </span>
-      <button onClick={onSignOutPress}>Sign out</button>
+    <div className="flex flex-col justify-center">
+      <Sidebar
+        HeaderComponent={
+          <div className="flex flex-row items-center">
+            <Avatar name={data.name}>
+              <Status status={'online'} />
+            </Avatar>
+            <p className="font-bold text-sm ml-2">{data.name}</p>
+          </div>
+        }
+        conversations={conversations}
+        signOut={onSignOutPress}
+      />
     </div>
   )
 }

@@ -16,10 +16,16 @@ const SignUp = () => {
     e.preventDefault()
     try {
       const user = await firebase.auth().createUserWithEmailAndPassword(email, password)
-      firebase.database().ref('users').child(user.user.uid).set({
-        name,
-        email: user.user.email,
-      })
+      firebase
+        .database()
+        .ref('users')
+        .child(user.user.uid)
+        .set({
+          data: {
+            name,
+            email: user.user.email,
+          },
+        })
       await firebase.auth().signInWithEmailAndPassword(email, password)
     } catch (err) {
       setError(err.message)
