@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import PersonItem from './PersonItem'
 
-export default function Sidebar({ HeaderComponent, conversations = [], signOut }) {
+export default function Sidebar({ HeaderComponent, conversations = [], signOut, onPersonPress }) {
   return (
     <div className="min-h-screen flex flex-col items-stretch p-6 w-60 bg-gray-50 border-r">
       <div>{HeaderComponent}</div>
@@ -15,7 +15,14 @@ export default function Sidebar({ HeaderComponent, conversations = [], signOut }
                 <p className="font-semibold text-sm text-gray-500">{title}</p>
                 <div className="py-6">
                   {people.length > 0 &&
-                    people.map((person, idx) => <PersonItem key={idx} {...person} />)}
+                    people.map((person, idx) => (
+                      <PersonItem
+                        key={idx}
+                        {...person.data}
+                        onClick={() => onPersonPress(person.data.id)}
+                        status={'online'}
+                      />
+                    ))}
                 </div>
               </div>
             ))}

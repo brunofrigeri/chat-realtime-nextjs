@@ -1,14 +1,21 @@
 import { AuthAction, useAuthUser, withAuthUser } from 'next-firebase-auth'
 import React, { useMemo } from 'react'
 import useSWR from 'swr'
+import { useRouter } from 'next/router'
 import Avatar from '../components/Avatar'
 import Sidebar from '../components/Sidebar'
 import Status from '../components/Status'
 
 const AuthenticatedPage = () => {
   const AuthUser = useAuthUser()
+  const router = useRouter()
 
   const { data } = useSWR(AuthUser.id ? `/api/user/${AuthUser.id}` : null, async (...args) => {
+    const res = await fetch(args)
+    return res.json()
+  })
+
+  const { data: users } = useSWR(AuthUser.id ? `/api/users` : null, async (...args) => {
     const res = await fetch(args)
     return res.json()
   })
@@ -22,24 +29,11 @@ const AuthenticatedPage = () => {
 
     topicsArray.push({
       title: 'Conversations',
-      people: [
-        {
-          id: 0,
-          name: 'Vivian Carolino',
-          email: 'v@gmail.com',
-          status: 'online',
-        },
-        {
-          id: 1,
-          name: 'Viviane Frigeri',
-          email: 'v1@gmail.com',
-          status: 'offline',
-        },
-      ],
+      people: users && users.data ? users.data.filter((u) => u.data.id !== AuthUser.id) : [],
     })
 
     return topicsArray
-  }, [])
+  }, [users, AuthUser.id])
 
   if (!data) {
     return <h1>Loading</h1>
@@ -58,6 +52,12 @@ const AuthenticatedPage = () => {
         }
         conversations={conversations}
         signOut={onSignOutPress}
+        onPersonPress={(id) =>
+          router.push({
+            pathname: '/auth/conversation/[id]',
+            query: { id },
+          })
+        }
       />
     </div>
   )

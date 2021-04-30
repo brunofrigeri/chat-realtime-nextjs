@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Status({ status, scale = 1 }) {
+export default function Status({ status, size = 'xl' }) {
   const getStatusColor = () => {
     switch (status) {
       case 'online':
@@ -14,11 +14,9 @@ export default function Status({ status, scale = 1 }) {
 
   return (
     <div
-      className={`absolute flex bottom-0 right-0 w-${scale * 4} h-${
-        scale * 4
-      } bg-gray-50 items-center justify-center rounded-full`}
+      className={`w-4 h-4 absolute flex bottom-0 right-0 bg-gray-50 items-center justify-center rounded-full`}
     >
-      <div className={`${getStatusColor()} w-${scale * 2} h-${scale * 2} rounded-full`} />
+      <div className={`${getStatusColor()} w-2 h-2 rounded-full`} />
     </div>
   )
 }

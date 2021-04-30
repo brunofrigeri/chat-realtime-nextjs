@@ -22,6 +22,7 @@ const SignUp = () => {
         .child(user.user.uid)
         .set({
           data: {
+            id: user.user.uid,
             name,
             email: user.user.email,
           },

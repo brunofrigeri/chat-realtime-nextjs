@@ -63,4 +63,5 @@ export const getServerSideProps = withAuthUserTokenSSR()()
 
 export default withAuthUser({
   whenAuthed: AuthAction.REDIRECT_TO_APP,
+  appPageURL: '/auth',
 })(Home)
