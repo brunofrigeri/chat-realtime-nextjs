@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Status({ status, size = 'xl' }) {
+export default function Status({ status }) {
   const getStatusColor = () => {
     switch (status) {
       case 'online':

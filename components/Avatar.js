@@ -8,14 +8,16 @@ export default function Avatar({ name, scale = 1, children }) {
     <div
       className={`${width} ${height} relative flex rounded-full justify-center items-center bg-gray-200`}
     >
-      <p className={scale < 1 ? 'text-xs' : 'text-sm'}>
-        {name
-          .split(' ')
-          .map((n) => n[0])
-          .filter((_, i) => i < 2)
-          .join('')
-          .toUpperCase()}
-      </p>
+      {name && (
+        <p className={`font-semibold ${scale < 1 ? 'text-xs' : 'text-sm'}`}>
+          {name
+            .split(' ')
+            .map((n) => n[0])
+            .filter((_, i) => i < 2)
+            .join('')
+            .toUpperCase()}
+        </p>
+      )}
       {children}
     </div>
   )

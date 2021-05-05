@@ -1,9 +1,15 @@
 import React from 'react'
+import { useRouter } from 'next/router'
+import Chat from '../../../components/Chat'
 
 const ConversationById = () => {
+  const router = useRouter()
+
+  console.log(router.query)
+
   return (
-    <div className="w-full min-h-screen bg-red-50">
-      <h1>OLA MUNDO</h1>
+    <div className="w-full">
+      <Chat />
     </div>
   )
 }
