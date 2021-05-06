@@ -4,7 +4,7 @@ import React from 'react'
 import Avatar from './Avatar'
 import Message from './Message'
 
-export default function Messenger() {
+export default function Messenger({ setShouldShowDetails }) {
   const messages = [
     {
       user: {
@@ -119,10 +119,10 @@ export default function Messenger() {
   return (
     <div className="relative h-full w-2/3 bg-gray-lighter py-4">
       <div className="sticky overflow-hidden top-0 bg-gray-lighter flex flex-row px-6 p-2">
-        <div className="flex flex-row items-center">
+        <button onClick={() => setShouldShowDetails(true)} className="flex flex-row items-center">
           <Avatar name={'Lisa Price'} />
           <p className="font-bold text-sm ml-2">{'Lisa Price'}</p>
-        </div>
+        </button>
       </div>
       <div className="overflow-y-scroll row-start-1 row-end-3">
         <div className="max-h-screen">

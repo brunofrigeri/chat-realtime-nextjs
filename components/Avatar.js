@@ -9,7 +9,7 @@ export default function Avatar({ name, scale = 1, children }) {
       className={`${width} ${height} relative flex rounded-full justify-center items-center bg-gray-200`}
     >
       {name && (
-        <p className={`font-semibold ${scale < 1 ? 'text-xs' : 'text-sm'}`}>
+        <p className={`font-semibold ${scale <= 1 ? 'text-sm' : 'text-2xl'}`}>
           {name
             .split(' ')
             .map((n) => n[0])

@@ -44,7 +44,7 @@ const Home = () => {
             placeholder={'Password'}
           />
           {!!error && <span className="self-center text-sm text-red-500">{error}</span>}
-          <button type="submit" className="mt-8 p-2 rounded-lg text-white font-bold bg-blue-600">
+          <button type="submit" className="mt-8 p-2 rounded-lg text-white font-bold bg-blue">
             Sign in
           </button>
         </form>
