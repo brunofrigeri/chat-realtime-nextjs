@@ -3,7 +3,7 @@ import { faSearch, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import React from 'react'
 import Conversations from './Conversations'
 
-export default function ChatSide() {
+export default function ChatSide({ chats, activeChat, setActiveChat }) {
   return (
     <div className="w-1/3 h-full py-4 px-8">
       <div className="relative">
@@ -19,7 +19,7 @@ export default function ChatSide() {
           />
         </div>
       </div>
-      <Conversations activeId={3} />
+      <Conversations chats={chats} activeChat={activeChat} setActiveChat={setActiveChat} />
     </div>
   )
 }

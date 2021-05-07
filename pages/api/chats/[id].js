@@ -1,16 +1,27 @@
 import { firebase } from '../../../utils/initAuth'
 
-const chats = async (req, res) => {
+const chat = async (req, res) => {
   if (req.method === 'GET') {
-    const value = await firebase.database().ref('chat').child(req.query.id).once('value')
+    const value = await firebase
+      .database()
+      .ref('users')
+      .child(req.query.id)
+      .child('chats')
+      .once('value')
+      .then((data) => {
+        return Object.values(data.val()).map((val) => {
+          return {
+            data: {
+              name: val.data.name,
+              id: val.data.id,
+            },
+            lastMessage: val.lastMessage,
+          }
+        })
+      })
 
-    const arrayOfChats = Object.keys(value.val()).map((val) => ({
-      userId: val,
-      messages: value.val()[val],
-    }))
-
-    return res.status(200).json(arrayOfChats)
+    return res.status(200).json(value)
   }
 }
 
-export default chats
+export default chat

@@ -25,6 +25,10 @@ button {
 	outline: inherit;
 }
 
+button:focus {
+	outline: transparent;
+}
+
 ::-webkit-scrollbar {
     width: 2px;  /* Total width including `border-width` of scrollbar thumb */
     height: 0;
